@@ -2,7 +2,7 @@
 
 void Main()
 {
-	var sum = 0;
+	long sum = 0;
 	var banks = new List<string>();
 	foreach (string line in File.ReadLines("C:/Users/wmoore/Documents/LINQPad Queries/inputs/2025-3.txt"))
 	{
@@ -11,24 +11,24 @@ void Main()
 	//banks.Dump();
 	foreach (string bank in banks)
 	{
-		var leftMaxIndex = bank.Length - 2;
-		for (int i = bank.Length - 2; i >= 0; i--)
+		var maxJolt = "";
+		var availableLeftmostIndex = 0;
+		for (int j = 12; j > 0; j--)
 		{
-			if (bank[i] >= bank[leftMaxIndex])
+			var leftMaxIndex = bank.Length - j;
+			for (int i = bank.Length - j; i >= availableLeftmostIndex; i--)
 			{
-				leftMaxIndex = i;
+				if (bank[i] >= bank[leftMaxIndex])
+				{
+					leftMaxIndex = i;
+				}
 			}
+			availableLeftmostIndex = leftMaxIndex + 1;
+			maxJolt += bank[leftMaxIndex];
 		}
-		var rightMaxIndex = leftMaxIndex + 1;
-		for (int i = leftMaxIndex + 1; i < bank.Length; i++)
-		{
-			if (bank[i] >= bank[rightMaxIndex])
-			{
-				rightMaxIndex = i;
-			}
-		}
-		var maxJolt = Int32.Parse(""+bank[leftMaxIndex] + bank[rightMaxIndex]);//.Dump();
-		sum += maxJolt;
+		
+		//maxJolt.Dump();
+		sum += long.Parse(maxJolt);
 	}
 	
 	sum.Dump();
